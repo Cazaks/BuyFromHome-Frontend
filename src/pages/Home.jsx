@@ -49,12 +49,13 @@ export default function Home() {
                 className="text-left border border-gray-200 dark:border-gray-800 rounded-lg p-4"
               >
 
-              <img
-                src={product.imageUrl}
-                alt={product.productName}
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              
+                {product.imageUrl && (
+                  <img
+                    src={product.imageUrl}
+                    alt={product.productName}
+                    className="h-48 w-full object-cover"
+                  />
+                )}
                 <span className="inline-block text-xs font-medium text-blue-600 mb-1">
                   {product.productCategoryName}
                 </span>
