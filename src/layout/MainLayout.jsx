@@ -8,6 +8,7 @@ import Container from "../components/Container";
 import { useAuth } from "../context/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/useCart";
+import logo from '../assets/images/BFM_logo.png';
 
 export default function MainLayout() {
   const navigation = useNavigate();
