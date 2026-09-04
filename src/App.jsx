@@ -9,6 +9,7 @@ import Cart from './pages/Cart';
 import Auth from './pages/Auth';
 import AdminDashboard from './pages/AdminDashboard';
 import CreateProduct from './pages/CreateProduct';
+import CreateCategory from './pages/CreateCategory';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="products" element={<CreateProduct />} />
+                <Route path="categories" element={<CreateCategory />} />
               </Route>
             </Routes>
           </BrowserRouter>
