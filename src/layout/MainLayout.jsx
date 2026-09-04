@@ -19,7 +19,7 @@ export default function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="fixed top-0 left-0 right-0 bg-neutral-100 dark:bg-neutral-950 z-50 shadow-lg">
-        <Container className="!max-w-5xl flex items-center justify-between py-2 text-gray-900 dark:text-gray-50">
+        <Container className="flex items-center justify-between py-1 text-gray-900 dark:text-gray-50">
           
           <Link to="/" className="flex items-center gap-2">
             <img src={logo} alt="BuyFromHome Stores" className="h-12 sm:h-14 w-auto" />
