@@ -27,14 +27,7 @@ export default function MainLayout() {
 
           <Navbar isOpen={isOpen} onClose={() => setIsOpen(false)} />
           <div className="controls flex items-center space-x-3 md:space-x-4">
-            {user?.role === "ADMIN" && (
-              <Link
-                to="/admin/products/new"
-                className="text-sm bg-primary-500 text-white px-3 py-1.5 rounded hover:bg-primary-600 transition-colors duration-200"
-              >
-                Add Product
-              </Link>
-            )}
+           
             <Link to="/cart" className="relative flex items-center justify-center rounded-lg p-2 text-black dark:text-white transition-colors cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-900" aria-label="Shopping Cart">
               <ShoppingCart size={20} aria-hidden="true" />
               {totalItems > 0 && (

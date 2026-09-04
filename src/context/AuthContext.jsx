@@ -35,10 +35,10 @@ export default function AuthProvider({ children }) {
       setUser(data);
       localStorage.setItem("authUser", JSON.stringify(data));
       setMessage({ content: "", type: "" });
-      return true;
+      return data;
     } catch (err) {
       setMessage({ content: err.message, type: "error" });
-      return false;
+      return null;
     }
   };
 
@@ -53,10 +53,10 @@ export default function AuthProvider({ children }) {
       setUser(data);
       localStorage.setItem("authUser", JSON.stringify(data));
       setMessage({ content: "", type: "" });
-      return true;
+      return data;
     } catch (err) {
       setMessage({ content: err.message, type: "error" });
-      return false;
+      return null;
     }
   };
 

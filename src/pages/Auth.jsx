@@ -16,24 +16,24 @@ export default function Auth() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    let success = false;
+  let result;
 
-    if (mode === "login") {
-      success = await login(data.email, data.password);
-    } else {
-      success = await signup({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        password: data.password,
-        phoneNumber: data.phoneNumber,
-      });
-    }
+  if (mode === "login") {
+    result = await login(data.email, data.password);
+  } else {
+    result = await signup({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+      phoneNumber: data.phoneNumber,
+    });
+  }
 
-    if (success) {
-  navigation(user?.role === "ADMIN" ? "/admin" : "/");
-}
-  };
+  if (result) {
+    navigation(result.role === "ADMIN" ? "/admin" : "/");
+  }
+};
 
   return (
     <>
