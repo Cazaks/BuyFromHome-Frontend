@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/useAuth";
-import { createCategory } from "../api/categories";
+import { createCategory, updateCategory, fetchCategoryById } from "../api/categories";
 import FormField from "../components/FormField";
 
 export default function CreateCategory() {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const isUpdateMode = Boolean(id);
+
   const [serverError, setServerError] = useState("");
-  const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(isUpdateMode);
 
   const {
     register,
@@ -17,20 +22,36 @@ export default function CreateCategory() {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    if (isUpdateMode) {
+      fetchCategoryById(id)
+        .then((category) => {
+          reset({
+            categoryName: category.categoryName,
+            categoryDescription: category.categoryDescription,
+          });
+        })
+        .catch((err) => setServerError(err.message))
+        .finally(() => setLoading(false));
+    }
+  }, [id, isUpdateMode, reset]);
+
+  if (loading) return <p>Loading...</p>;
+
   const onSubmit = async (data) => {
     setServerError("");
-    setSuccess(false);
     setSubmitting(true);
+    const payload = {
+      categoryName: data.categoryName,
+      categoryDescription: data.categoryDescription,
+    };
     try {
-      await createCategory(
-        {
-          categoryName: data.categoryName,
-          categoryDescription: data.categoryDescription,
-        },
-        user.token
-      );
-      setSuccess(true);
-      reset();
+      if (isUpdateMode) {
+        await updateCategory(id, payload, user.token);
+      } else {
+        await createCategory(payload, user.token);
+      }
+      navigate("/admin/categories");
     } catch (err) {
       setServerError(err.message);
     } finally {
@@ -40,18 +61,13 @@ export default function CreateCategory() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">Add Category</h2>
+      <h2 className="text-2xl font-bold mb-6">{isUpdateMode ? "Update Category" : "Add Category"}</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-md p-8 rounded shadow-md bg-neutral-100 dark:bg-neutral-950"
       >
         {serverError && (
           <div className="mb-6 p-4 rounded-md bg-red-100 text-red-700">{serverError}</div>
-        )}
-        {success && (
-          <div className="mb-6 p-4 rounded-md bg-green-100 text-green-700">
-            Category created successfully.
-          </div>
         )}
 
         <FormField
@@ -76,7 +92,7 @@ export default function CreateCategory() {
           disabled={submitting}
           className="bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer disabled:opacity-50"
         >
-          {submitting ? "Creating..." : "Create Category"}
+          {submitting ? "Saving..." : isUpdateMode ? "Update Category" : "Create Category"}
         </button>
       </form>
     </div>

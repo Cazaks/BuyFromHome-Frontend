@@ -1,28 +1,49 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Container from "../components/Container";
 import FormField from "../components/FormField";
 import { useAuth } from "../context/useAuth";
-import { createProduct } from "../api/products";
+import { createProduct, updateProduct, fetchProductById } from "../api/products";
 import { fetchCategories } from "../api/categories";
 
 export default function CreateProduct() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isUpdateMode = Boolean(id);
+
   const [categories, setCategories] = useState([]);
   const [serverError, setServerError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(isUpdateMode);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   useEffect(() => {
     fetchCategories().then(setCategories).catch(() => setCategories([]));
   }, []);
+
+  useEffect(() => {
+    if (isUpdateMode) {
+      fetchProductById(id)
+        .then((product) => {
+          reset({
+            productName: product.productName,
+            productDescription: product.productDescription,
+            imageUrl: product.imageUrl,
+            productCategoryId: product.productCategoryId,
+          });
+        })
+        .catch((err) => setServerError(err.message))
+        .finally(() => setLoading(false));
+    }
+  }, [id, isUpdateMode, reset]);
 
   if (!user || user.role !== "ADMIN") {
     return (
@@ -32,20 +53,24 @@ export default function CreateProduct() {
     );
   }
 
+  if (loading) return <p>Loading...</p>;
+
   const onSubmit = async (data) => {
     setServerError("");
     setSubmitting(true);
+    const payload = {
+      productName: data.productName,
+      productDescription: data.productDescription,
+      imageUrl: data.imageUrl,
+      productCategoryId: Number(data.productCategoryId),
+    };
     try {
-      await createProduct(
-        {
-          productName: data.productName,
-          productDescription: data.productDescription,
-          imageUrl: data.imageUrl,
-          productCategoryId: Number(data.productCategoryId),
-        },
-        user.token
-      );
-      navigate("/");
+      if (isUpdateMode) {
+        await updateProduct(id, payload, user.token);
+      } else {
+        await createProduct(payload, user.token);
+      }
+      navigate("/admin/products");
     } catch (err) {
       setServerError(err.message);
     } finally {
@@ -54,17 +79,14 @@ export default function CreateProduct() {
   };
 
   return (
-    <Container as="section" className="py-20 text-gray-900 dark:text-gray-50">
+    <div>
+      <h2 className="text-2xl font-bold mb-6">{isUpdateMode ? "Update Product" : "Add Product"}</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-md mx-auto p-8 rounded shadow-md bg-neutral-100 dark:bg-neutral-950"
+        className="max-w-md p-8 rounded shadow-md bg-neutral-100 dark:bg-neutral-950"
       >
-        <h2 className="text-3xl font-bold mb-4 text-center">Add Product</h2>
-
         {serverError && (
-          <div className="mb-6 p-4 rounded-md bg-red-100 text-red-700">
-            {serverError}
-          </div>
+          <div className="mb-6 p-4 rounded-md bg-red-100 text-red-700">{serverError}</div>
         )}
 
         <FormField
@@ -116,11 +138,11 @@ export default function CreateProduct() {
         <button
           type="submit"
           disabled={submitting}
-          className="block mx-auto bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer disabled:opacity-50"
+          className="bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer disabled:opacity-50"
         >
-          {submitting ? "Creating..." : "Create Product"}
+          {submitting ? "Saving..." : isUpdateMode ? "Update Product" : "Create Product"}
         </button>
       </form>
-    </Container>
+    </div>
   );
 }
