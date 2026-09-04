@@ -20,7 +20,9 @@ export default function MainLayout() {
     <div className="min-h-screen flex flex-col">
       <header className="fixed top-0 left-0 right-0 bg-neutral-100 dark:bg-neutral-950 z-50 shadow-lg">
         <Container className="flex items-center justify-between py-4 text-gray-900 dark:text-gray-50">
-          <h1 className="text-lg sm:text-xl font-bold"><Link to="/">BuyFromHome <span className="text-xs md:text-sm lg:text-lg text-primary-600 dark:text-primary-400">Stores</span></Link></h1>
+          <Link to="/" className="flex items-center gap-2">
+            <img src={logo} alt="BuyFromHome Stores" className="h-8 sm:h-10 w-auto" />
+          </Link>
           <Navbar isOpen={isOpen} onClose={() => setIsOpen(false)} />
           <div className="controls flex items-center space-x-3 md:space-x-4">
             <Link to="/cart" className="relative flex items-center justify-center rounded-lg p-2 text-black dark:text-white transition-colors cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-900" aria-label="Shopping Cart">
