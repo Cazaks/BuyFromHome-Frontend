@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import AuthProvider from './context/AuthContext';
 import CartProvider from './context/CartContext';
@@ -11,14 +11,12 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <CartProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route element={<MainLayout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/cart" element={<Cart />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/cart" element={<Cart />} />
+            </Route>
+          </Routes>
         </CartProvider>
       </AuthProvider>
     </ThemeProvider>
