@@ -7,3 +7,19 @@ export async function fetchCategories() {
   }
   return response.json();
 }
+
+export async function createCategory(categoryData, token) {
+  const response = await fetch(`${BASE_URL}/api/v1/product-categories`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(categoryData),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to create category");
+  }
+  return data;
+}
