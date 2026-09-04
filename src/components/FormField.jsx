@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+
 export default function FormField({
   label,
   id,
@@ -8,7 +11,13 @@ export default function FormField({
   defaultValue,
   rows,
 }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const isPassword = type === "password";
+  const actualType = isPassword ? (showPassword ? "text" : "password") : type;
+
   const inputClass = `block text-sm w-full px-4 py-2 h-12 border rounded-md focus:outline-0 ${
+    isPassword ? "pr-12" : ""
+  } ${
     error
       ? "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500"
       : "border-gray-300 dark:border-gray-600 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
@@ -28,18 +37,29 @@ export default function FormField({
           {...registration}
         />
       ) : (
-        <input
-          type={type}
-          id={id}
-          placeholder={placeholder}
-          defaultValue={defaultValue}
-          className={inputClass}
-          {...registration}
-        />
+        <div className="relative">
+          <input
+            type={actualType}
+            id={id}
+            placeholder={placeholder}
+            defaultValue={defaultValue}
+            className={inputClass}
+            {...registration}
+          />
+          {isPassword && (
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+              tabIndex={-1}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          )}
+        </div>
       )}
-      {error && (
-        <p className="text-red-500 text-sm mt-1">{error}</p>
-      )}
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
 }
