@@ -31,8 +31,8 @@ export default function Auth() {
     }
 
     if (success) {
-      navigation("/");
-    }
+  navigation(user?.role === "ADMIN" ? "/admin" : "/");
+}
   };
 
   return (
