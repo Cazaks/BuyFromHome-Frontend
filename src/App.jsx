@@ -8,7 +8,9 @@ import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Auth from './pages/Auth';
 import AdminDashboard from './pages/AdminDashboard';
+import ProductList from './pages/ProductList';
 import CreateProduct from './pages/CreateProduct';
+import CategoryList from './pages/CategoryList';
 import CreateCategory from './pages/CreateCategory';
 
 function App() {
@@ -26,8 +28,12 @@ function App() {
 
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
-                <Route path="products" element={<CreateProduct />} />
-                <Route path="categories" element={<CreateCategory />} />
+                <Route path="products" element={<ProductList />} />
+                <Route path="products/new" element={<CreateProduct />} />
+                <Route path="products/:id/update" element={<CreateProduct />} />
+                <Route path="categories" element={<CategoryList />} />
+                <Route path="categories/new" element={<CreateCategory />} />
+                <Route path="categories/:id/update" element={<CreateCategory />} />
               </Route>
             </Routes>
           </BrowserRouter>
