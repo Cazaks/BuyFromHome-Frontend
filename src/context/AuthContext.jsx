@@ -60,6 +60,42 @@ export default function AuthProvider({ children }) {
     }
   };
 
+  const loginWithGoogle = async (idToken) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/auth/login/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }),
+      });
+      const data = await parseResponse(response);
+      setUser(data);
+      localStorage.setItem("authUser", JSON.stringify(data));
+      setMessage({ content: "", type: "" });
+      return data;
+    } catch (err) {
+      setMessage({ content: err.message, type: "error" });
+      return null;
+    }
+  };
+
+  const signupWithGoogle = async (idToken) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/auth/register/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }),
+      });
+      const data = await parseResponse(response);
+      setUser(data);
+      localStorage.setItem("authUser", JSON.stringify(data));
+      setMessage({ content: "", type: "" });
+      return data;
+    } catch (err) {
+      setMessage({ content: err.message, type: "error" });
+      return null;
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("authUser");
@@ -68,7 +104,9 @@ export default function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, message, login, signup, logout }}>
+    <AuthContext.Provider
+      value={{ user, message, login, signup, loginWithGoogle, signupWithGoogle, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
