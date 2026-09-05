@@ -1,0 +1,15 @@
+export const measurementUnitLabels = {
+  DERICA: "Derica",
+  CUSTARD: "Custard",
+  PAINT_BUCKET: "Paint Bucket",
+  BAG: "Bag",
+  BASKET: "Basket",
+  KG: "Kg",
+  GRAM: "Gram",
+  LITRE: "Litre",
+  MILLILITRE: "Millilitre",
+  PIECE: "Piece",
+  DOZEN: "Dozen",
+  CRATE: "Crate",
+  PACK: "Pack",
+};
