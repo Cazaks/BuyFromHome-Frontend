@@ -12,6 +12,8 @@ import ProductList from './pages/ProductList';
 import CreateProduct from './pages/CreateProduct';
 import CategoryList from './pages/CategoryList';
 import CreateCategory from './pages/CreateCategory';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
               </Route>
 
               <Route path="/admin" element={<AdminLayout />}>
