@@ -6,9 +6,8 @@ import FormField from "../components/FormField";
 import { useAuth } from "../context/useAuth";
 
 export default function ForgotPassword() {
-  const { forgotPassword } = useAuth();
+  const { forgotPassword, message } = useAuth();
   const [submitted, setSubmitted] = useState(false);
-  const [serverError, setServerError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const {
@@ -18,14 +17,11 @@ export default function ForgotPassword() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    setServerError("");
     setSubmitting(true);
     const success = await forgotPassword(data.email);
     setSubmitting(false);
     if (success) {
       setSubmitted(true);
-    } else {
-      setServerError("Something went wrong. Please try again.");
     }
   };
 
@@ -45,8 +41,10 @@ export default function ForgotPassword() {
           </div>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)}>
-            {serverError && (
-              <div className="mb-6 p-4 rounded-md bg-red-100 text-red-700">{serverError}</div>
+            {message.content && (
+              <div className={`mb-6 p-4 rounded-md ${message.type === "error" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
+                {message.content}
+              </div>
             )}
 
             <p className="mb-6 text-sm text-gray-600 dark:text-gray-400">
