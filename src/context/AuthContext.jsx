@@ -17,9 +17,13 @@ export default function AuthProvider({ children }) {
   const [message, setMessage] = useState({ content: "", type: "" });
 
   async function parseResponse(response) {
-    const data = await response.json();
+    const contentType = response.headers.get("content-type");
+    const data = contentType && contentType.includes("application/json")
+      ? await response.json()
+      : null;
+
     if (!response.ok) {
-      throw new Error(data.message || "Something went wrong");
+      throw new Error((data && data.message) || "Something went wrong");
     }
     return data;
   }
@@ -96,6 +100,38 @@ export default function AuthProvider({ children }) {
     }
   };
 
+  const forgotPassword = async (email) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      await parseResponse(response);
+      setMessage({ content: "", type: "" });
+      return true;
+    } catch (err) {
+      setMessage({ content: err.message, type: "error" });
+      return false;
+    }
+  };
+
+  const resetPassword = async (token, newPassword) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, newPassword }),
+      });
+      await parseResponse(response);
+      setMessage({ content: "", type: "" });
+      return true;
+    } catch (err) {
+      setMessage({ content: err.message, type: "error" });
+      return false;
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("authUser");
@@ -105,7 +141,17 @@ export default function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, message, login, signup, loginWithGoogle, signupWithGoogle, logout }}
+      value={{
+        user,
+        message,
+        login,
+        signup,
+        loginWithGoogle,
+        signupWithGoogle,
+        forgotPassword,
+        resetPassword,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
