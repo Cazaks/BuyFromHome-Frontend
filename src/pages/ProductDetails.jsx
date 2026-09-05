@@ -51,20 +51,22 @@ export default function ProductDetails() {
   const handleAddToCart = () => {
     if (!selectedMeasurement) return;
 
-    addToCart({
-      id: selectedMeasurement.sellingMeasurementId,
-      name: `${product.productName} (${selectedMeasurement.productVariety}${
-        selectedMeasurement.productSpecification ? ", " + selectedMeasurement.productSpecification : ""
-      }) - ${measurementUnitLabels[selectedMeasurement.measurementUnit]}`,
-      price: selectedMeasurement.sellingPrice,
-      discount: 0,
-      image: product.imageUrl,
-    });
+    addToCart(
+      {
+        id: selectedMeasurement.sellingMeasurementId,
+        name: `${product.productName} (${selectedMeasurement.productVariety}${
+          selectedMeasurement.productSpecification ? ", " + selectedMeasurement.productSpecification : ""
+        }) - ${measurementUnitLabels[selectedMeasurement.measurementUnit]}`,
+        price: selectedMeasurement.sellingPrice,
+        discount: 0,
+        image: product.imageUrl,
+      },
+      quantity
+    );
 
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
-
   if (loading) return <Container className="py-20 text-center">Loading...</Container>;
   if (error) return <Container className="py-20 text-center text-red-500">{error}</Container>;
   if (!product) return null;

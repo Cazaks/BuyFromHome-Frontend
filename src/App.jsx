@@ -14,6 +14,7 @@ import CategoryList from './pages/CategoryList';
 import CreateCategory from './pages/CreateCategory';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import ProductDetails from './pages/ProductDetails';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/products/:id" element={<ProductDetails />} />
               </Route>
 
               <Route path="/admin" element={<AdminLayout />}>

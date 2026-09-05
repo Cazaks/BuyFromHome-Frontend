@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import { fetchProducts } from "../api/products";
 
@@ -45,9 +46,10 @@ export default function Home() {
         {!loading && !error && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {products.map((product) => (
-              <div
+              <Link
                 key={product.productId}
-                className="text-left border border-gray-200 dark:border-gray-800 rounded-lg p-4"
+                to={`/products/${product.productId}`}
+                className="block text-left border border-gray-200 dark:border-gray-800 rounded-lg p-4 hover:shadow-md transition-shadow"
               >
                 {product.imageUrl && (
                   <img
@@ -63,7 +65,7 @@ export default function Home() {
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                   {product.productDescription}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         )}

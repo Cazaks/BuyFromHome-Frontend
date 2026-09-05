@@ -36,24 +36,25 @@ export default function CartProvider({ children }) {
     }
   }, [cartItems]);
 
-  const addToCart = useCallback((product) => {
+  const addToCart = useCallback((product, quantityToAdd = 1) => {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
 
       if (existingItem) {
-        // Update quantity if product already exists
+        // Increase quantity by the amount requested
         return prevItems.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + quantityToAdd }
             : item,
         );
       }
 
-      // Add new product with quantity 1
-      return [...prevItems, { ...product, quantity: 1 }];
+      // Add new product with the requested quantity
+      return [...prevItems, { ...product, quantity: quantityToAdd }];
     });
   }, []);
 
+  
   const removeFromCart = useCallback((productId) => {
     setCartItems((prevItems) => {
       // Find the item to remove
