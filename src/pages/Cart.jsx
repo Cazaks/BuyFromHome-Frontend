@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { X, Minus, Plus } from "lucide-react";
 import Container from "../components/Container";
 import Price from "../components/Price";
 import Breadcrumb from "../components/Breadcrumb";
+import Modal from "../components/Modal";
 import { useCart } from "../context/useCart";
 import { useAuth } from "../context/useAuth";
 
@@ -15,6 +17,7 @@ export default function Cart() {
     removeItemCompletely,
   } = useCart();
   const { user } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
     <>
@@ -105,22 +108,42 @@ export default function Cart() {
                     Checkout
                   </Link>
                 ) : (
-                  <p>
-                    Please{" "}
-                    <Link
-                      to="/auth"
-                      className="text-primary-500 hover:text-primary-600"
-                    >
-                      login
-                    </Link>{" "}
-                    to proceed with checkout.
-                  </p>
+                  <button
+                    onClick={() => setShowAuthModal(true)}
+                    className="w-full bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer"
+                  >
+                    Checkout
+                  </button>
                 )}
               </div>
             </div>
           </div>
         )}
       </Container>
+
+      <Modal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        title="Sign in to continue"
+      >
+        <p className="text-center text-gray-600 dark:text-gray-400 mb-6">
+          Please sign up or log in to complete your checkout.
+        </p>
+        <div className="flex flex-col gap-3">
+          <Link
+            to="/auth"
+            className="text-center bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200"
+          >
+            Log In
+          </Link>
+          <Link
+            to="/auth"
+            className="text-center border border-primary-500 text-primary-500 px-4 py-2 rounded hover:bg-primary-50 dark:hover:bg-primary-950 transition-colors duration-200"
+          >
+            Sign Up
+          </Link>
+        </div>
+      </Modal>
     </>
   );
 }
