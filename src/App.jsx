@@ -15,6 +15,10 @@ import CreateCategory from './pages/CreateCategory';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import ProductDetails from './pages/ProductDetails';
+import ProductOptionList from './pages/ProductOptionList';
+import CreateProductOption from './pages/CreateProductOption';
+import SellingMeasurementList from './pages/SellingMeasurementList';
+import CreateSellingMeasurement from './pages/CreateSellingMeasurement';
 
 function App() {
   return (
@@ -40,6 +44,12 @@ function App() {
                 <Route path="categories" element={<CategoryList />} />
                 <Route path="categories/new" element={<CreateCategory />} />
                 <Route path="categories/:id/update" element={<CreateCategory />} />
+                <Route path="product-options" element={<ProductOptionList />} />
+                <Route path="product-options/new" element={<CreateProductOption />} />
+                <Route path="product-options/:id/update" element={<CreateProductOption />} />
+                <Route path="selling-measurements" element={<SellingMeasurementList />} />
+                <Route path="selling-measurements/new" element={<CreateSellingMeasurement />} />
+                <Route path="selling-measurements/:id/update" element={<CreateSellingMeasurement />} />
               </Route>
             </Routes>
           </BrowserRouter>

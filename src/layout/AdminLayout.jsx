@@ -2,6 +2,7 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import { LayoutDashboard, Package, Tags, LogOut } from "lucide-react";
 import ThemeToggle from "../components/ThemeToggle";
 import { useAuth } from "../context/useAuth";
+import { LayoutDashboard, Package, Tags, Layers, Ruler, LogOut } from "lucide-react";
 
 export default function AdminLayout() {
   const { user, logout } = useAuth();
@@ -31,6 +32,14 @@ export default function AdminLayout() {
           <Link to="/admin/categories" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-900 transition-colors">
             <Tags size={18} /> Categories
           </Link>
+
+          <Link to="/admin/product-options" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-900 transition-colors">
+            <Layers size={18} /> Product Options
+          </Link>
+          <Link to="/admin/selling-measurements" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-900 transition-colors">
+            <Ruler size={18} /> Measurements
+          </Link>
+
         </nav>
         <div className="p-4 border-t border-gray-200 dark:border-gray-900 flex items-center justify-between">
           <ThemeToggle />
