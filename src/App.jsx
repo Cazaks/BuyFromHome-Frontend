@@ -19,6 +19,11 @@ import ProductOptionList from './pages/ProductOptionList';
 import CreateProductOption from './pages/CreateProductOption';
 import SellingMeasurementList from './pages/SellingMeasurementList';
 import CreateSellingMeasurement from './pages/CreateSellingMeasurement';
+import Checkout from './pages/Checkout';
+import OrderList from './pages/OrderList';
+import OrderDetails from './pages/OrderDetails';
+import AdminOrderList from './pages/AdminOrderList';
+import AdminOrderDetails from './pages/AdminOrderDetails';
 
 function App() {
   return (
@@ -28,6 +33,9 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route element={<MainLayout />}>
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/orders" element={<OrderList />} />
+                <Route path="/orders/:id" element={<OrderDetails />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/auth" element={<Auth />} />
@@ -50,6 +58,8 @@ function App() {
                 <Route path="selling-measurements" element={<SellingMeasurementList />} />
                 <Route path="selling-measurements/new" element={<CreateSellingMeasurement />} />
                 <Route path="selling-measurements/:id/update" element={<CreateSellingMeasurement />} />
+                <Route path="orders" element={<AdminOrderList />} />
+                <Route path="orders/:orderId" element={<AdminOrderDetails />} />
               </Route>
             </Routes>
           </BrowserRouter>

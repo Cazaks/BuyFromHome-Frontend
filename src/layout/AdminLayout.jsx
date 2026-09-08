@@ -5,6 +5,7 @@ import {
   Tags,
   Layers,
   Ruler,
+  ShoppingBag,
   LogOut,
 } from "lucide-react";
 import ThemeToggle from "../components/ThemeToggle";
@@ -49,6 +50,10 @@ export default function AdminLayout() {
           >
             <Package size={18} />
             Products
+          </Link>
+
+          <Link to="/admin/orders" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-900 transition-colors">
+           <ShoppingBag size={18} /> Orders
           </Link>
 
           <Link
