@@ -6,6 +6,8 @@ import { fetchProductOptionsByProduct } from "../api/productOptions";
 import { fetchSellingMeasurementsByOption } from "../api/sellingMeasurements";
 import { measurementUnitLabels } from "../components/measurementUnitLabels";
 import { useCart } from "../context/useCart";
+import { Star } from "lucide-react";
+import { fetchReviewsForProduct } from "../api/reviews";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -17,21 +19,27 @@ export default function ProductDetails() {
   const [measurements, setMeasurements] = useState([]);
   const [selectedMeasurementId, setSelectedMeasurementId] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [added, setAdded] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    Promise.all([fetchProductById(id), fetchProductOptionsByProduct(id)])
-      .then(([productData, optionsData]) => {
-        setProduct(productData);
-        setOptions(optionsData.filter((o) => o.enabled));
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [id]);
+ useEffect(() => {
+  setLoading(true);
+  Promise.all([
+    fetchProductById(id),
+    fetchProductOptionsByProduct(id),
+    fetchReviewsForProduct(id),
+  ])
+    .then(([productData, optionsData, reviewsData]) => {
+      setProduct(productData);
+      setOptions(optionsData.filter((o) => o.enabled));
+      setReviews(reviewsData);
+    })
+    .catch((err) => setError(err.message))
+    .finally(() => setLoading(false));
+}, [id]);
 
   useEffect(() => {
     if (!selectedOptionId) {
@@ -162,6 +170,58 @@ export default function ProductDetails() {
           )}
         </div>
       </div>
+      <div className="mt-16 max-w-4xl mx-auto">
+  <h2 className="text-2xl font-bold mb-6">Customer Reviews</h2>
+
+  {reviews.length === 0 ? (
+    <p className="text-gray-500">No reviews yet.</p>
+  ) : (
+    <>
+      <div className="flex items-center gap-2 mb-6">
+        <div className="flex">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <Star
+              key={star}
+              size={20}
+              className={
+                star <= Math.round(reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length)
+                  ? "fill-yellow-400 text-yellow-400"
+                  : "text-gray-300 dark:text-gray-600"
+              }
+            />
+          ))}
+        </div>
+        <span className="text-sm text-gray-500">
+          {(reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)} out of 5 ({reviews.length} review{reviews.length !== 1 ? "s" : ""})
+        </span>
+      </div>
+
+      <div className="space-y-6">
+        {reviews.map((review) => (
+          <div key={review.reviewId} className="border-b border-gray-200 dark:border-gray-800 pb-6">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="flex">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star
+                    key={star}
+                    size={16}
+                    className={
+                      star <= review.rating
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "text-gray-300 dark:text-gray-600"
+                    }
+                  />
+                ))}
+              </div>
+              <span className="font-medium text-sm">{review.reviewerName}</span>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{review.comment}</p>
+          </div>
+        ))}
+      </div>
+    </>
+  )}
+</div>
     </Container>
   );
 }
