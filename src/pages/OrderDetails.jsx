@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import Container from "../components/Container";
 import { fetchMyOrderById } from "../api/orders";
 import { useAuth } from "../context/useAuth";
-import { useState } from "react";
 import ReviewForm from "../components/ReviewForm";
 
 const statusSteps = ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED"];
