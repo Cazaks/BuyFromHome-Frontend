@@ -57,33 +57,39 @@ export default function Checkout() {
     }
   };
 
-  const handlePlaceOrder = async () => {
-    if (!selectedAddressId) {
-      setError("Please select or add a delivery address.");
-      return;
+ const handlePlaceOrder = async () => {
+  if (!selectedAddressId) {
+    setError("Please select or add a delivery address.");
+    return;
+  }
+  setError("");
+  setSubmitting(true);
+  try {
+    // Sync the local (guest-friendly) cart into the real backend cart,
+    // since Order is created from the backend Cart, not localStorage.
+    for (const item of cartItems) {
+      await addItemToBackendCart(item.id, item.quantity, user.token);
     }
-    setError("");
-    setSubmitting(true);
-    try {
-      const order = await createOrder(
-        {
-          addressId: Number(selectedAddressId),
-          paymentMethod,
-          notes,
-        },
-        user.token
-      );
 
-      await createPayment(order.orderId, paymentMethod, user.token);
+    const order = await createOrder(
+      {
+        addressId: Number(selectedAddressId),
+        paymentMethod,
+        notes,
+      },
+      user.token
+    );
 
-      clearCart();
-      navigate(`/orders/${order.orderId}`);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    await createPayment(order.orderId, paymentMethod, user.token);
+
+    clearCart();
+    navigate(`/orders/${order.orderId}`);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   if (loading) return <Container className="py-20 text-center">Loading...</Container>;
 
