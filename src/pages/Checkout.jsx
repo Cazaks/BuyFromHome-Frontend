@@ -8,6 +8,7 @@ import { useAuth } from "../context/useAuth";
 import { fetchMyAddresses, createAddress } from "../api/addresses";
 import { createOrder } from "../api/orders";
 import { createPayment } from "../api/payments";
+import { addItemToBackendCart } from "../api/cart";
 
 export default function Checkout() {
   const { cartItems, totalPrice, clearCart } = useCart();
