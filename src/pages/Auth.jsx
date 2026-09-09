@@ -70,7 +70,7 @@ export default function Auth() {
   className="w-full lg:w-1/2 relative flex items-center justify-center px-6 py-12 bg-cover bg-center"
   style={{ backgroundImage: `url(${authFormBackground})` }}
 >
-  <div className="absolute inset-0 bg-neutral-900/40" />
+  <div className="absolute inset-0 bg-neutral-900/10" />
 
   <div className="relative z-10 w-full max-w-md bg-black/10 backdrop-blur-md rounded-xl shadow-xl p-8 border border-white/10">
     {user ? (
