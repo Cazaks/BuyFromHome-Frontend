@@ -11,7 +11,7 @@ import aboutBackgroundImage from "../assets/images/aboutpage_Image.jpg";
 export default function About() {
   return (
     <main className="text-gray-900 dark:text-gray-50">
-    {/* Hero */}
+ {/* Hero */}
 <section className="relative">
   {aboutBackgroundImage ? (
     <>
@@ -28,23 +28,18 @@ export default function About() {
 
   {aboutBackgroundImage ? (
     <>
-      {/* Headline block — sits in the open upper area */}
+      {/* Headline + paragraph together, upper part of the image */}
       <Container className="absolute top-0 left-0 right-0 pt-16 md:pt-24">
-        <div className="max-w-4xl">
+        <div className="max-w-3xl">
           <p className="font-semibold uppercase tracking-widest text-sm mb-4 text-primary-300">
             Welcome to BuyFromHome Stores
           </p>
 
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight text-white">
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6 text-white">
             You crave a home-cooked meal.
             <span className="text-primary-500"> The market has other plans.</span>
           </h1>
-        </div>
-      </Container>
 
-      {/* Supporting copy — sits lower, above the busy foreground */}
-      <Container className="absolute top-[42%] left-0 right-0">
-        <div className="max-w-2xl">
           <p className="text-lg md:text-xl leading-relaxed text-white/90">
             Here's something we noticed: people don't order fast food because
             they've stopped caring about real, home-cooked meals. They order
@@ -52,6 +47,14 @@ export default function About() {
             exists to give that meal back to you, without the trip.
           </p>
         </div>
+      </Container>
+
+      {/* Second write-up, in the open space below the stalls */}
+      <Container className="absolute bottom-8 md:bottom-16 left-0 right-0">
+        <p className="text-xl md:text-2xl font-semibold text-white max-w-xl">
+          That's where we come in — bringing the market to your doorstep,
+          one order at a time.
+        </p>
       </Container>
     </>
   ) : (
