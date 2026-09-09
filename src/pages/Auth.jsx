@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Container from "../components/Container";
 import FormField from "../components/FormField";
 import GoogleSignInButton from "../components/GoogleSignInButton";
+import ProductCarousel from "../components/ProductCarousel";
 import { useAuth } from "../context/useAuth";
+import authBackground from "../assets/images/authpage_Image.jpg";
 
 export default function Auth() {
   const navigation = useNavigate();
@@ -37,136 +38,166 @@ export default function Auth() {
   };
 
   return (
-    <>
-      {user ? (
-        <Container className="text-center pt-20 pb-20 text-gray-900 dark:text-gray-50">
-          <h1 className="text-4xl font-bold mb-4">Welcome, {user.firstName}!</h1>
-          <p className="text-lg mb-6">
-            You are now logged in. Enjoy shopping at BuyFromHome Stores.
-          </p>
-          <p className="text-lg mb-6">
-            <Link to="/" className="text-primary-500 hover:text-primary-700">
-              Continue Shopping
-            </Link>
-          </p>
-        </Container>
-      ) : (
-        <>
-          <Container as="section" className="text-center pt-20 pb-8 text-gray-900 dark:text-gray-50">
-            <h1 className="text-4xl font-bold mb-4">Welcome to BuyFromHome Stores</h1>
-            <p className="text-lg mb-6">Please log in or sign up to continue shopping.</p>
-          </Container>
+    <div className="min-h-screen flex">
+      {/* Left panel — background image + welcome + product carousel */}
+      <div
+        className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 bg-cover bg-center"
+        style={{ backgroundImage: `url(${authBackground})` }}
+      >
+        <div className="absolute inset-0 bg-black/50" />
 
-          <Container as="section" className="py-8 pb-20 text-gray-900 dark:text-gray-50">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="max-w-md mx-auto p-8 rounded shadow-md bg-neutral-100 dark:bg-neutral-950"
-            >
-              <h2 className="text-3xl font-bold mb-4 text-center">
+        <div className="relative z-10">
+          <Link to="/" className="text-2xl font-bold text-white">
+            BuyFromHome <span className="text-primary-400">Stores</span>
+          </Link>
+        </div>
+
+        <div className="relative z-10">
+          <h1 className="text-4xl font-bold text-white mb-4">
+            Welcome to BuyFromHome Stores
+          </h1>
+          <p className="text-white/80 mb-10 max-w-md">
+            Discover the best products at unbeatable prices. Shop now and enjoy
+            exclusive deals, delivered straight to your door.
+          </p>
+          <ProductCarousel />
+        </div>
+      </div>
+
+      {/* Right panel — auth form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 bg-white dark:bg-neutral-950">
+        <div className="w-full max-w-md">
+          {user ? (
+            <div className="text-center text-gray-900 dark:text-gray-50">
+              <h1 className="text-3xl font-bold mb-4">Welcome, {user.firstName}!</h1>
+              <p className="text-lg mb-6">
+                You are now logged in. Enjoy shopping at BuyFromHome Stores.
+              </p>
+              <Link to="/" className="text-primary-500 hover:text-primary-700">
+                Continue Shopping
+              </Link>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-50">
                 {mode === "login" ? "Log In" : "Sign Up"}
               </h2>
+              <p className="text-gray-500 mb-6">
+                {mode === "login"
+                  ? "Welcome back — enter your details to continue."
+                  : "Create an account to start shopping."}
+              </p>
+
               {message.content && (
-                <div className={`mb-6 p-4 rounded-md ${message.type === "error" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
+                <div
+                  className={`mb-6 p-4 rounded-md ${
+                    message.type === "error"
+                      ? "bg-red-100 text-red-700"
+                      : "bg-green-100 text-green-700"
+                  }`}
+                >
                   {message.content}
                 </div>
               )}
 
-              {mode === "signup" && (
-                <>
-                  <FormField
-                    label="First Name"
-                    id="firstName"
-                    placeholder="Enter your first name"
-                    error={errors.firstName?.message}
-                    registration={register("firstName", { required: "First name is required" })}
-                  />
-                  <FormField
-                    label="Last Name"
-                    id="lastName"
-                    placeholder="Enter your last name"
-                    error={errors.lastName?.message}
-                    registration={register("lastName", { required: "Last name is required" })}
-                  />
-                  <FormField
-                    label="Phone Number"
-                    id="phoneNumber"
-                    placeholder="e.g. 08012345678"
-                    error={errors.phoneNumber?.message}
-                    registration={register("phoneNumber", {
-                      required: "Phone number is required",
-                      pattern: {
-                        value: /^(\+234|0)[789][01]\d{8}$/,
-                        message: "Enter a valid Nigerian phone number",
-                      },
-                    })}
-                  />
-                </>
-              )}
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {mode === "signup" && (
+                  <>
+                    <FormField
+                      label="First Name"
+                      id="firstName"
+                      placeholder="Enter your first name"
+                      error={errors.firstName?.message}
+                      registration={register("firstName", { required: "First name is required" })}
+                    />
+                    <FormField
+                      label="Last Name"
+                      id="lastName"
+                      placeholder="Enter your last name"
+                      error={errors.lastName?.message}
+                      registration={register("lastName", { required: "Last name is required" })}
+                    />
+                    <FormField
+                      label="Phone Number"
+                      id="phoneNumber"
+                      placeholder="e.g. 08012345678"
+                      error={errors.phoneNumber?.message}
+                      registration={register("phoneNumber", {
+                        required: "Phone number is required",
+                        pattern: {
+                          value: /^(\+234|0)[789][01]\d{8}$/,
+                          message: "Enter a valid Nigerian phone number",
+                        },
+                      })}
+                    />
+                  </>
+                )}
 
-              <FormField
-                label="Email"
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                error={errors.email?.message}
-                registration={register("email", {
-                  required: "Email is required",
-                  pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email address" },
-                })}
-              />
+                <FormField
+                  label="Email"
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  error={errors.email?.message}
+                  registration={register("email", {
+                    required: "Email is required",
+                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email address" },
+                  })}
+                />
 
-              <FormField
-                label="Password"
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                error={errors.password?.message}
-                registration={register("password", {
-                  required: "Password is required",
-                  pattern: {
-                    value: /^(?=\S+$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{9,}$/,
-                    message: "Min 9 chars, with uppercase, lowercase, digit, and special character",
-                  },
-                })}
-              />
+                <FormField
+                  label="Password"
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  error={errors.password?.message}
+                  registration={register("password", {
+                    required: "Password is required",
+                    pattern: {
+                      value: /^(?=\S+$)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{9,}$/,
+                      message: "Min 9 chars, with uppercase, lowercase, digit, and special character",
+                    },
+                  })}
+                />
 
-              {mode === "login" && (
-                <p className="text-right mb-6 -mt-2">
-                  <Link to="/forgot-password" className="text-sm text-primary-500 hover:underline">
-                    Forgot password?
-                  </Link>
-                </p>
-              )}
+                {mode === "login" && (
+                  <p className="text-right mb-6 -mt-2">
+                    <Link to="/forgot-password" className="text-sm text-primary-500 hover:underline">
+                      Forgot password?
+                    </Link>
+                  </p>
+                )}
 
-              <button
-                type="submit"
-                className="block mx-auto bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer"
-              >
-                {mode === "login" ? "Log In" : "Sign Up"}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  className="w-full bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer"
+                >
+                  {mode === "login" ? "Log In" : "Sign Up"}
+                </button>
+              </form>
 
-            <div className="max-w-md mx-auto mt-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex-1 h-px bg-gray-300 dark:bg-gray-700" />
-                <span className="text-sm text-gray-500">or</span>
-                <div className="flex-1 h-px bg-gray-300 dark:bg-gray-700" />
+              <div className="mt-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex-1 h-px bg-gray-300 dark:bg-gray-700" />
+                  <span className="text-sm text-gray-500">or</span>
+                  <div className="flex-1 h-px bg-gray-300 dark:bg-gray-700" />
+                </div>
+                <GoogleSignInButton mode={mode} />
               </div>
-              <GoogleSignInButton mode={mode} />
-            </div>
 
-            <p className="mt-6 text-center text-gray-600 dark:text-gray-400">
-              {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
-              <button
-                className="text-primary-500 dark:text-primary-400 cursor-pointer hover:underline"
-                onClick={() => setMode(mode === "login" ? "signup" : "login")}
-              >
-                {mode === "login" ? "Sign Up" : "Log In"}
-              </button>
-            </p>
-          </Container>
-        </>
-      )}
-    </>
+              <p className="mt-6 text-center text-gray-600 dark:text-gray-400">
+                {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
+                <button
+                  className="text-primary-500 dark:text-primary-400 cursor-pointer hover:underline"
+                  onClick={() => setMode(mode === "login" ? "signup" : "login")}
+                >
+                  {mode === "login" ? "Sign Up" : "Log In"}
+                </button>
+              </p>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
