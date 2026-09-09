@@ -6,6 +6,7 @@ import GoogleSignInButton from "../components/GoogleSignInButton";
 import ProductCarousel from "../components/ProductCarousel";
 import { useAuth } from "../context/useAuth";
 import authBackground from "../assets/images/authpage_Image.jpg";
+import authFormBackground from "../assets/images/authform_Image.jpg";
 
 export default function Auth() {
   const navigation = useNavigate();
@@ -39,7 +40,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left panel — background image + welcome + product carousel */}
+      {/* Left panel — unchanged: background image + welcome + product carousel */}
       <div
         className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 bg-cover bg-center"
         style={{ backgroundImage: `url(${authBackground})` }}
@@ -64,9 +65,14 @@ export default function Auth() {
         </div>
       </div>
 
-      {/* Right panel — auth form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 bg-white dark:bg-neutral-950">
-        <div className="w-full max-w-md">
+      {/* Right panel — auth form, now with its own background image */}
+      <div
+        className="w-full lg:w-1/2 relative flex items-center justify-center px-6 py-12 bg-cover bg-center"
+        style={{ backgroundImage: `url(${authFormBackground})` }}
+      >
+        <div className="absolute inset-0 bg-neutral-900/60 dark:bg-neutral-950/75" />
+
+        <div className="relative z-10 w-full max-w-md bg-white dark:bg-neutral-950 rounded-xl shadow-xl p-8">
           {user ? (
             <div className="text-center text-gray-900 dark:text-gray-50">
               <h1 className="text-3xl font-bold mb-4">Welcome, {user.firstName}!</h1>
