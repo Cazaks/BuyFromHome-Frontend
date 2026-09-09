@@ -13,13 +13,13 @@ export default function About() {
     <main className="text-gray-900 dark:text-gray-50">
       {/* Hero */}
       <section
-        className={`relative ${
-          aboutBackgroundImage
-            ? "bg-cover bg-center"
-            : "bg-neutral-100 dark:bg-neutral-950"
-        }`}
-        style={aboutBackgroundImage ? { backgroundImage: `url(${aboutBackgroundImage})` } : undefined}
-      >
+  className={`relative ${
+    aboutBackgroundImage
+      ? "bg-contain bg-center bg-no-repeat bg-neutral-900"
+      : "bg-neutral-100 dark:bg-neutral-950"
+  }`}
+  style={aboutBackgroundImage ? { backgroundImage: `url(${aboutBackgroundImage})` } : undefined}
+>
         {aboutBackgroundImage && <div className="absolute inset-0 bg-black/50" />}
 
         <Container className="relative z-10 py-24 md:py-32">
