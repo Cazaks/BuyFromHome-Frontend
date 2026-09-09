@@ -72,7 +72,7 @@ export default function Auth() {
 >
   <div className="absolute inset-0 bg-neutral-900/40" />
 
-  <div className="relative z-10 w-full max-w-md bg-black/30 backdrop-blur-md rounded-xl shadow-xl p-8 border border-white/10">
+  <div className="relative z-10 w-full max-w-md bg-black/10 backdrop-blur-md rounded-xl shadow-xl p-8 border border-white/10">
     {user ? (
       <div className="text-center text-white">
         <h1 className="text-3xl font-bold mb-4">Welcome, {user.firstName}!</h1>
