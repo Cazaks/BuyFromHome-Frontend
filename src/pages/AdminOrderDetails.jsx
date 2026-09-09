@@ -12,7 +12,7 @@ const ORDER_STATUSES = ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVE
 const PAYMENT_STATUSES = ["PENDING", "PAID", "FAILED", "REFUNDED", "CANCELLED"];
 
 export default function AdminOrderDetails() {
-  const { id } = useParams();
+  const { orderId } = useParams();
   const { user } = useAuth();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ export default function AdminOrderDetails() {
 
   const load = () => {
     setLoading(true);
-    fetchOrderByIdAdmin(id, user.token)
+    fetchOrderByIdAdmin(orderId, user.token)
       .then((data) => {
         setOrder(data);
         setCourierName(data.courierName || "");
@@ -36,12 +36,12 @@ export default function AdminOrderDetails() {
       .finally(() => setLoading(false));
   };
 
-  useEffect(load, [id, user.token]);
+  useEffect(load, [orderId, user.token]);
 
   const handleStatusChange = async (status) => {
     setSavingStatus(true);
     try {
-      await updateOrderStatus(id, status, user.token);
+      await updateOrderStatus(orderId, status, user.token);
       load();
     } catch (err) {
       setError(err.message);
@@ -53,7 +53,7 @@ export default function AdminOrderDetails() {
   const handlePaymentStatusChange = async (paymentStatus) => {
     setSavingStatus(true);
     try {
-      await updatePaymentStatus(id, paymentStatus, user.token);
+      await updatePaymentStatus(orderId, paymentStatus, user.token);
       load();
     } catch (err) {
       setError(err.message);
@@ -66,7 +66,7 @@ export default function AdminOrderDetails() {
     setSavingStatus(true);
     try {
       await updateOrderTracking(
-        id,
+        orderId,
         { courierName, trackingNumber, trackingUrl },
         user.token
       );
