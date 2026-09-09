@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 const links = [
   { to: "/", label: "Home" },
   { to: "/cart", label: "Cart" },
+  { to: "/orders", label: "My Orders" },
 ];
 
 export default function Navbar({ isOpen = false, onClose }) {
