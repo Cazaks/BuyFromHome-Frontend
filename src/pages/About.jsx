@@ -1,21 +1,12 @@
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
-import {
-  ShoppingBasket,
-  Clock,
-  Car,
-  Leaf,
-  Heart,
-  Truck,
-  Store,
-  ArrowRight,
-  ShieldCheck,
-} from "lucide-react";
+import { ShoppingBasket, Clock, Car, Leaf, Heart, Truck, Store, ArrowRight, ShieldCheck,} from "lucide-react";
+import aboutBackgroundImage from "../assets/images/aboutpage_Image.jpg";
 
 // Provision for a hero background image — leave as null for now.
 // When ready, import your image and set this to it, e.g.:
 // import aboutBackground from "../assets/images/about_hero.jpg";
-const aboutBackgroundImage = null;
+// const aboutBackgroundImage = null;
 
 export default function About() {
   return (
