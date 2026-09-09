@@ -139,7 +139,7 @@ export default function OrderDetails() {
           <h2 className="text-lg font-bold mb-4">Summary</h2>
           <div className="flex justify-between font-bold mb-4">
             <span>Total</span>
-            <span>${Number(order.totalAmount).toFixed(2)}</span>
+            <span>₦{Number(order.totalAmount).toFixed(2)}</span>
           </div>
           <p className="text-sm mb-1">
             <span className="text-gray-500">Payment: </span>
