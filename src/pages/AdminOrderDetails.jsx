@@ -9,7 +9,12 @@ import {
 import { useAuth } from "../context/useAuth";
 
 const ORDER_STATUSES = ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED"];
-const PAYMENT_STATUSES = ["PENDING", "PAID", "FAILED", "REFUNDED", "CANCELLED"];
+const PAYMENT_STATUSES = [
+  "PENDING",
+  "SUCCESS",
+  "FAILED",
+  "REFUNDED"
+];
 
 export default function AdminOrderDetails() {
   const { orderId } = useParams();
