@@ -24,6 +24,7 @@ import OrderList from './pages/OrderList';
 import OrderDetails from './pages/OrderDetails';
 import AdminOrderList from './pages/AdminOrderList';
 import AdminOrderDetails from './pages/AdminOrderDetails';
+import About from './pages/About';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/products/:id" element={<ProductDetails />} />
+                <Route path="/about" element={<About />} />
               </Route>
 
               <Route path="/admin" element={<AdminLayout />}>
