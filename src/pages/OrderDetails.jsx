@@ -119,7 +119,7 @@ export default function OrderDetails() {
                   </button>
                 )}
               </div>
-              <p className="font-semibold">${Number(item.subtotal).toFixed(2)}</p>
+              <p className="font-semibold">₦{Number(item.subtotal).toFixed(2)}</p>
             </div>
           ))}
 

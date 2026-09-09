@@ -12,51 +12,59 @@ export default function About() {
   return (
     <main className="text-gray-900 dark:text-gray-50">
       {/* Hero */}
-      <section
-  className={`relative ${
-    aboutBackgroundImage
-      ? "bg-contain bg-center bg-no-repeat bg-neutral-900"
-      : "bg-neutral-100 dark:bg-neutral-950"
-  }`}
-  style={aboutBackgroundImage ? { backgroundImage: `url(${aboutBackgroundImage})` } : undefined}
->
-        {aboutBackgroundImage && <div className="absolute inset-0 bg-black/50" />}
+     {/* Hero */}
+<section className="relative">
+  {aboutBackgroundImage ? (
+    <>
+      <img
+        src={aboutBackgroundImage}
+        alt="BuyFromHome Stores"
+        className="w-full h-auto"
+      />
+      <div className="absolute inset-0 bg-black/50" />
+    </>
+  ) : (
+    <div className="bg-neutral-100 dark:bg-neutral-950" />
+  )}
 
-        <Container className="relative z-10 py-24 md:py-32">
-          <div className="max-w-4xl">
-            <p
-              className={`font-semibold uppercase tracking-widest text-sm mb-4 ${
-                aboutBackgroundImage ? "text-primary-300" : "text-primary-500"
-              }`}
-            >
-              Welcome to BuyFromHome Stores
-            </p>
+  <Container
+    className={`${
+      aboutBackgroundImage ? "absolute inset-0 flex items-center" : "py-24 md:py-32"
+    }`}
+  >
+    <div className="max-w-4xl">
+      <p
+        className={`font-semibold uppercase tracking-widest text-sm mb-4 ${
+          aboutBackgroundImage ? "text-primary-300" : "text-primary-500"
+        }`}
+      >
+        Welcome to BuyFromHome Stores
+      </p>
 
-            <h1
-              className={`text-4xl md:text-6xl font-bold leading-tight mb-6 ${
-                aboutBackgroundImage ? "text-white" : ""
-              }`}
-            >
-              You crave a home-cooked meal.
-              <span className="text-primary-500"> The market has other plans.</span>
-            </h1>
+      <h1
+        className={`text-4xl md:text-6xl font-bold leading-tight mb-6 ${
+          aboutBackgroundImage ? "text-white" : ""
+        }`}
+      >
+        You crave a home-cooked meal.
+        <span className="text-primary-500"> The market has other plans.</span>
+      </h1>
 
-            <p
-              className={`text-lg md:text-xl leading-relaxed max-w-3xl ${
-                aboutBackgroundImage
-                  ? "text-white/85"
-                  : "text-gray-600 dark:text-gray-400"
-              }`}
-            >
-              Here's something we noticed: people don't order fast food because
-              they've stopped caring about real, home-cooked meals. They order
-              it because the market got in the way — again. BuyFromHome Stores
-              exists to give that meal back to you, without the trip.
-            </p>
-          </div>
-        </Container>
-      </section>
-
+      <p
+        className={`text-lg md:text-xl leading-relaxed max-w-3xl ${
+          aboutBackgroundImage
+            ? "text-white/85"
+            : "text-gray-600 dark:text-gray-400"
+        }`}
+      >
+        Here's something we noticed: people don't order fast food because
+        they've stopped caring about real, home-cooked meals. They order
+        it because the market got in the way — again. BuyFromHome Stores
+        exists to give that meal back to you, without the trip.
+      </p>
+    </div>
+  </Container>
+</section>
       {/* The Story */}
       <section>
         <Container className="py-20 md:py-28">
