@@ -63,9 +63,9 @@ export default function Home() {
           !error &&
           productsByCategory.map(({ category, products: categoryProducts }) => (
             <div key={category.id} className="mb-16 last:mb-0">
-              <h3 className="text-2xl font-bold mb-6 border-b border-gray-200 dark:border-gray-800 pb-3">
+              <h2 className="text-2xl font-bold mb-6 border-b border-gray-200 dark:border-gray-800 pb-3">
                 {category.categoryName}
-              </h3>
+              </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {categoryProducts.map((product) => (
                   <Link
