@@ -153,9 +153,6 @@ export default function ProductDetails() {
                       onChange={(e) => setQuantity(Number(e.target.value))}
                       className="w-20 px-3 py-2 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
                     />
-                    <span className="text-sm text-gray-500">
-                      {selectedMeasurement.quantityInStock} in stock
-                    </span>
                   </div>
 
                   <button
