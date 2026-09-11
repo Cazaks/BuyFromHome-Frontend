@@ -82,12 +82,12 @@ export default function ProductDetails() {
     >
       <div className="absolute inset-0 bg-white/40 dark:bg-black/60" />
 
-      <Container as="section" className="relative z-10 py-20 text-gray-900 dark:text-gray-50">
+      <Container as="section" className="relative z-10 py-10 sm:py-20 text-gray-900 dark:text-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto bg-white dark:bg-neutral-950 rounded-xl shadow-xl p-6 md:p-10">
           <img
             src={product.imageUrl}
             alt={product.productName}
-            className="w-full h-80 object-cover rounded-lg"
+            className="w-full h-64 object-cover rounded-lg"
           />
 
           <div>
@@ -145,7 +145,7 @@ export default function ProductDetails() {
                   <>
                     <p className="text-2xl font-bold mb-4">₦{selectedMeasurement.sellingPrice}</p>
 
-                    <div className="flex items-center gap-4 mb-6">
+                    <div className="flex flex-wrap items-center gap-4 mb-6">
                       <label className="text-sm font-medium">Quantity</label>
                       <input
                         type="number"
