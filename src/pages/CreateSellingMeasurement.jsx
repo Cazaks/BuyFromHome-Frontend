@@ -81,7 +81,7 @@ export default function CreateSellingMeasurement() {
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-md p-8 rounded shadow-md bg-neutral-100 dark:bg-neutral-950"
+       className="w-full max-w-md p-6 sm:p-8 rounded shadow-md bg-neutral-100 dark:bg-neutral-950"
       >
         {serverError && (
           <div className="mb-6 p-4 rounded-md bg-red-100 text-red-700">{serverError}</div>
