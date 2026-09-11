@@ -6,8 +6,7 @@ import { fetchProductOptionsByProduct } from "../api/productOptions";
 import { fetchSellingMeasurementsByOption } from "../api/sellingMeasurements";
 import { measurementUnitLabels } from "../components/measurementUnitLabels";
 import { useCart } from "../context/useCart";
-import { Star } from "lucide-react";
-import { fetchReviewsForProduct } from "../api/reviews";
+import { getCategoryBackground } from "../utils/categoryBackgrounds";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -19,27 +18,21 @@ export default function ProductDetails() {
   const [measurements, setMeasurements] = useState([]);
   const [selectedMeasurementId, setSelectedMeasurementId] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [reviews, setReviews] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [added, setAdded] = useState(false);
 
- useEffect(() => {
-  setLoading(true);
-  Promise.all([
-    fetchProductById(id),
-    fetchProductOptionsByProduct(id),
-    fetchReviewsForProduct(id),
-  ])
-    .then(([productData, optionsData, reviewsData]) => {
-      setProduct(productData);
-      setOptions(optionsData.filter((o) => o.enabled));
-      setReviews(reviewsData);
-    })
-    .catch((err) => setError(err.message))
-    .finally(() => setLoading(false));
-}, [id]);
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([fetchProductById(id), fetchProductOptionsByProduct(id)])
+      .then(([productData, optionsData]) => {
+        setProduct(productData);
+        setOptions(optionsData.filter((o) => o.enabled));
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [id]);
 
   useEffect(() => {
     if (!selectedOptionId) {
@@ -75,150 +68,108 @@ export default function ProductDetails() {
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
+
   if (loading) return <Container className="py-20 text-center">Loading...</Container>;
   if (error) return <Container className="py-20 text-center text-red-500">{error}</Container>;
   if (!product) return null;
 
+  const backgroundImage = getCategoryBackground(product.productCategoryName);
+
   return (
-    <Container as="section" className="py-20 text-gray-900 dark:text-gray-50">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-        <img
-          src={product.imageUrl}
-          alt={product.productName}
-          className="w-full h-80 object-cover rounded-lg"
-        />
+    <div
+      className="relative min-h-screen bg-cover bg-center bg-fixed"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="absolute inset-0 bg-white/85 dark:bg-black/80" />
 
-        <div>
-          <span className="text-xs font-medium text-primary-500">{product.productCategoryName}</span>
-          <h1 className="text-3xl font-bold mt-1 mb-3">{product.productName}</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">{product.productDescription}</p>
+      <Container as="section" className="relative z-10 py-20 text-gray-900 dark:text-gray-50">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto bg-white dark:bg-neutral-950 rounded-xl shadow-xl p-6 md:p-10">
+          <img
+            src={product.imageUrl}
+            alt={product.productName}
+            className="w-full h-80 object-cover rounded-lg"
+          />
 
-          {options.length === 0 ? (
-            <p className="text-gray-500">No variants available for this product yet.</p>
-          ) : (
-            <>
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium">Choose an option</label>
-                <select
-                  value={selectedOptionId}
-                  onChange={(e) => {
-                    setSelectedOptionId(e.target.value);
-                    setSelectedMeasurementId("");
-                  }}
-                  className="block w-full px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
-                >
-                  <option value="">Select an option</option>
-                  {options.map((opt) => (
-                    <option key={opt.productOptionId} value={opt.productOptionId}>
-                      {opt.productVariety}
-                      {opt.productSpecification ? ` - ${opt.productSpecification}` : ""}
-                    </option>
-                  ))}
-                </select>
-              </div>
+          <div>
+            <span className="text-xs font-medium text-primary-500">{product.productCategoryName}</span>
+            <h1 className="text-3xl font-bold mt-1 mb-3">{product.productName}</h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">{product.productDescription}</p>
 
-              {selectedOptionId && (
+            {options.length === 0 ? (
+              <p className="text-gray-500">No variants available for this product yet.</p>
+            ) : (
+              <>
                 <div className="mb-4">
-                  <label className="block mb-2 text-sm font-medium">Choose a size / measurement</label>
-                  {measurements.length === 0 ? (
-                    <p className="text-gray-500 text-sm">No measurements available for this option.</p>
-                  ) : (
-                    <select
-                      value={selectedMeasurementId}
-                      onChange={(e) => setSelectedMeasurementId(e.target.value)}
-                      className="block w-full px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
-                    >
-                      <option value="">Select a measurement</option>
-                      {measurements.map((m) => (
-                        <option key={m.sellingMeasurementId} value={m.sellingMeasurementId}>
-                          {measurementUnitLabels[m.measurementUnit]} - ₦{m.sellingPrice}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </div>
-              )}
-
-              {selectedMeasurement && (
-                <>
-                  <p className="text-2xl font-bold mb-4">₦{selectedMeasurement.sellingPrice}</p>
-
-                  <div className="flex items-center gap-4 mb-6">
-                    <label className="text-sm font-medium">Quantity</label>
-                    <input
-                      type="number"
-                      min="1"
-                      max={selectedMeasurement.quantityInStock}
-                      value={quantity}
-                      onChange={(e) => setQuantity(Number(e.target.value))}
-                      className="w-20 px-3 py-2 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
-                    />
-                  </div>
-
-                  <button
-                    onClick={handleAddToCart}
-                    className="bg-primary-500 text-white px-6 py-3 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer"
+                  <label className="block mb-2 text-sm font-medium">Choose an option</label>
+                  <select
+                    value={selectedOptionId}
+                    onChange={(e) => {
+                      setSelectedOptionId(e.target.value);
+                      setSelectedMeasurementId("");
+                    }}
+                    className="block w-full px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
                   >
-                    {added ? "Added!" : "Add to Cart"}
-                  </button>
-                </>
-              )}
-            </>
-          )}
-        </div>
-      </div>
-      <div className="mt-16 max-w-4xl mx-auto">
-  <h2 className="text-2xl font-bold mb-6">Customer Reviews</h2>
+                    <option value="">Select an option</option>
+                    {options.map((opt) => (
+                      <option key={opt.productOptionId} value={opt.productOptionId}>
+                        {opt.productVariety}
+                        {opt.productSpecification ? ` - ${opt.productSpecification}` : ""}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-  {reviews.length === 0 ? (
-    <p className="text-gray-500">No reviews yet.</p>
-  ) : (
-    <>
-      <div className="flex items-center gap-2 mb-6">
-        <div className="flex">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <Star
-              key={star}
-              size={20}
-              className={
-                star <= Math.round(reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length)
-                  ? "fill-yellow-400 text-yellow-400"
-                  : "text-gray-300 dark:text-gray-600"
-              }
-            />
-          ))}
-        </div>
-        <span className="text-sm text-gray-500">
-          {(reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)} out of 5 ({reviews.length} review{reviews.length !== 1 ? "s" : ""})
-        </span>
-      </div>
+                {selectedOptionId && (
+                  <div className="mb-4">
+                    <label className="block mb-2 text-sm font-medium">Choose a size / measurement</label>
+                    {measurements.length === 0 ? (
+                      <p className="text-gray-500 text-sm">No measurements available for this option.</p>
+                    ) : (
+                      <select
+                        value={selectedMeasurementId}
+                        onChange={(e) => setSelectedMeasurementId(e.target.value)}
+                        className="block w-full px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
+                      >
+                        <option value="">Select a measurement</option>
+                        {measurements.map((m) => (
+                          <option key={m.sellingMeasurementId} value={m.sellingMeasurementId}>
+                            {measurementUnitLabels[m.measurementUnit]} - ₦{m.sellingPrice}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
+                )}
 
-      <div className="space-y-6">
-        {reviews.map((review) => (
-          <div key={review.reviewId} className="border-b border-gray-200 dark:border-gray-800 pb-6">
-            <div className="flex items-center gap-2 mb-1">
-              <div className="flex">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    size={16}
-                    className={
-                      star <= review.rating
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300 dark:text-gray-600"
-                    }
-                  />
-                ))}
-              </div>
-              <span className="font-medium text-sm">{review.reviewerName}</span>
-            </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{review.comment}</p>
+                {selectedMeasurement && (
+                  <>
+                    <p className="text-2xl font-bold mb-4">₦{selectedMeasurement.sellingPrice}</p>
+
+                    <div className="flex items-center gap-4 mb-6">
+                      <label className="text-sm font-medium">Quantity</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max={selectedMeasurement.quantityInStock}
+                        value={quantity}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        className="w-20 px-3 py-2 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
+                      />
+                    </div>
+
+                    <button
+                      onClick={handleAddToCart}
+                      className="bg-primary-500 text-white px-6 py-3 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer"
+                    >
+                      {added ? "Added!" : "Add to Cart"}
+                    </button>
+                  </>
+                )}
+              </>
+            )}
           </div>
-        ))}
-      </div>
-    </>
-  )}
-</div>
-    </Container>
+        </div>
+      </Container>
+    </div>
   );
 }
