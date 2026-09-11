@@ -89,7 +89,8 @@ export default function AdminOrderDetails() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-2">{order.orderNumber}</h2>
+      <h2 className="text-2xl font-bold mb-2">
+        {order.orderNumber}</h2>
       <p className="text-gray-500 mb-6">
         {new Date(order.createdAt).toLocaleString()}
       </p>
@@ -131,25 +132,25 @@ export default function AdminOrderDetails() {
             value={courierName}
             onChange={(e) => setCourierName(e.target.value)}
             placeholder="Courier name"
-            className="px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
+            className="w-full px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
           />
           <input
             value={trackingNumber}
             onChange={(e) => setTrackingNumber(e.target.value)}
             placeholder="Tracking number"
-            className="px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
+            className="w-full px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
           />
           <input
             value={trackingUrl}
             onChange={(e) => setTrackingUrl(e.target.value)}
             placeholder="Tracking URL (optional)"
-            className="px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
+            className="w-full px-4 py-2 h-12 border rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-900"
           />
         </div>
         <button
           onClick={handleSaveTracking}
           disabled={savingStatus}
-          className="bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer disabled:opacity-50"
+          className="w-full sm:w-auto bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors duration-200 cursor-pointer disabled:opacity-50"
         >
           Save Tracking Info
         </button>
@@ -160,7 +161,7 @@ export default function AdminOrderDetails() {
         {order.items.map((item) => (
           <div
             key={item.orderItemId}
-            className="flex items-center justify-between p-4 rounded-lg border border-gray-200 dark:border-gray-900"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-lg border border-gray-200 dark:border-gray-900"
           >
             <div>
               <p className="font-medium">{item.productName}</p>
@@ -168,7 +169,9 @@ export default function AdminOrderDetails() {
                 {item.productVariety} · {item.measurementUnit} × {item.quantity}
               </p>
             </div>
-            <p className="font-semibold">${Number(item.subtotal).toFixed(2)}</p>
+            <p className="font-semibold self-start sm:self-auto">
+              ₦{Number(item.subtotal).toFixed(2)}
+            </p>
           </div>
         ))}
       </div>
