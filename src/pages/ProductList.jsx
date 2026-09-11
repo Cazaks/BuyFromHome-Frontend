@@ -68,16 +68,21 @@ export default function ProductList() {
                       {p.enabled ? "Enabled" : "Disabled"}
                     </span>
                   </td>
-                  <td className="p-3 flex gap-3">
-                    <Link to={`/admin/products/${p.productId}/update`} className="text-primary-500 hover:underline">
-                      Update
-                    </Link>
-                    <button
-                      onClick={() => toggleEnabled(p)}
-                      className="text-primary-500 hover:underline cursor-pointer"
-                    >
-                      {p.enabled ? "Disable" : "Enable"}
-                    </button>
+                  <td className="p-3">
+                    <div className="flex flex-wrap gap-3">
+                      <Link
+                        to={`/admin/products/${p.productId}/update`}
+                        className="text-primary-500 hover:underline"
+                      >
+                        Update
+                      </Link>
+
+                      <button
+                        onClick={() => toggleEnabled(p)}
+                        className="text-primary-500 hover:underline cursor-pointer">
+                        {p.enabled ? "Disable" : "Enable"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
