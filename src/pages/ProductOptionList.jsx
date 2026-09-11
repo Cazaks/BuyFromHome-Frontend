@@ -70,16 +70,22 @@ export default function ProductOptionList() {
                       {o.enabled ? "Enabled" : "Disabled"}
                     </span>
                   </td>
-                  <td className="p-3 flex gap-3">
-                    <Link to={`/admin/product-options/${o.productOptionId}/update`} className="text-primary-500 hover:underline">
-                      Update
-                    </Link>
-                    <button
-                      onClick={() => toggleEnabled(o)}
-                      className="text-primary-500 hover:underline cursor-pointer"
-                    >
-                      {o.enabled ? "Disable" : "Enable"}
-                    </button>
+                  <td className="p-3">
+                    <div className="flex flex-wrap gap-3">
+                      <Link
+                        to={`/admin/product-options/${o.productOptionId}/update`}
+                        className="text-primary-500 hover:underline"
+                      >
+                        Update
+                      </Link>
+
+                      <button
+                        onClick={() => toggleEnabled(o)}
+                        className="text-primary-500 hover:underline cursor-pointer"
+                      >
+                        {o.enabled ? "Disable" : "Enable"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

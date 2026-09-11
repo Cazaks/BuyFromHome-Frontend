@@ -34,7 +34,7 @@ export default function ProductList() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold">Products</h2>
         <Link
           to="/admin/products/new"
@@ -49,7 +49,7 @@ export default function ProductList() {
 
       {!loading && (
         <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-900">
-          <table className="w-full text-sm text-left">
+          <table className="w-full min-w-[600px] text-sm text-left">
             <thead className="bg-neutral-100 dark:bg-neutral-950 border-b border-gray-200 dark:border-gray-900">
               <tr>
                 <th className="p-3">Name</th>
