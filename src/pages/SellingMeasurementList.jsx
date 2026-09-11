@@ -35,7 +35,7 @@ export default function SellingMeasurementList() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold">Selling Measurements</h2>
         <Link
           to="/admin/selling-measurements/new"
@@ -50,7 +50,7 @@ export default function SellingMeasurementList() {
 
       {!loading && (
         <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-900">
-          <table className="w-full text-sm text-left">
+          <table className="w-full min-w-[800px] text-sm text-left">
             <thead className="bg-neutral-100 dark:bg-neutral-950 border-b border-gray-200 dark:border-gray-900">
               <tr>
                 <th className="p-3">Product</th>
@@ -75,16 +75,22 @@ export default function SellingMeasurementList() {
                       {m.enabled ? "Enabled" : "Disabled"}
                     </span>
                   </td>
-                  <td className="p-3 flex gap-3">
-                    <Link to={`/admin/selling-measurements/${m.sellingMeasurementId}/update`} className="text-primary-500 hover:underline">
-                      Update
-                    </Link>
-                    <button
-                      onClick={() => toggleEnabled(m)}
-                      className="text-primary-500 hover:underline cursor-pointer"
-                    >
-                      {m.enabled ? "Disable" : "Enable"}
-                    </button>
+                  <td className="p-3">
+                    <div className="flex flex-wrap gap-3">
+                      <Link
+                        to={`/admin/selling-measurements/${m.sellingMeasurementId}/update`}
+                        className="text-primary-500 hover:underline"
+                      >
+                        Update
+                      </Link>
+
+                      <button
+                        onClick={() => toggleEnabled(m)}
+                        className="text-primary-500 hover:underline cursor-pointer"
+                      >
+                        {m.enabled ? "Disable" : "Enable"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
