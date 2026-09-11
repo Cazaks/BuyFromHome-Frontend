@@ -101,7 +101,7 @@ export default function OrderDetails() {
           {order.items.map((item) => (
             <div
               key={item.orderItemId}
-              className="flex items-center justify-between p-4 rounded-lg border border-gray-200 dark:border-gray-900"
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-lg border border-gray-200 dark:border-gray-900"
             >
               <div>
                 <p className="font-medium">{item.productName}</p>
