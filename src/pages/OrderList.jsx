@@ -44,16 +44,17 @@ export default function OrderList() {
             to={`/orders/${order.orderId}`}
             className="block p-6 rounded-lg border border-gray-200 dark:border-gray-900 hover:shadow-md transition-shadow"
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-semibold">{order.orderNumber}</span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+              <span className="font-semibold break-words">{order.orderNumber}</span>
               <span className={`text-sm font-medium ${statusColors[order.status]}`}>
                 {order.status}
               </span>
             </div>
+
             <p className="text-sm text-gray-500">
               {new Date(order.createdAt).toLocaleDateString()} · {order.items.length} item(s)
             </p>
-            <p className="font-bold mt-2">${Number(order.totalAmount).toFixed(2)}</p>
+            <p className="font-bold mt-2">₦{Number(order.totalAmount).toFixed(2)}</p>
           </Link>
         ))}
       </div>
