@@ -27,7 +27,7 @@ export default function ForgotPassword() {
 
   return (
     <Container as="section" className="py-20 text-gray-900 dark:text-gray-50">
-      <div className="max-w-md mx-auto p-8 rounded shadow-md bg-neutral-100 dark:bg-neutral-950">
+      <div className="w-full max-w-md mx-auto p-6 sm:p-8 rounded shadow-md bg-neutral-100 dark:bg-neutral-950">
         <h2 className="text-3xl font-bold mb-4 text-center">Forgot Password</h2>
 
         {submitted ? (
