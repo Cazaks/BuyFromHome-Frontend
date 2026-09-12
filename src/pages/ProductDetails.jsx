@@ -80,7 +80,7 @@ export default function ProductDetails() {
       className="relative min-h-screen bg-cover bg-center bg-fixed"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="absolute inset-0 bg-white/40 dark:bg-black/60" />
+      <div className="absolute inset-0 bg-white/20 dark:bg-black/40" />
 
       <Container as="section" className="relative z-10 py-10 sm:py-20 text-gray-900 dark:text-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto bg-white dark:bg-neutral-950 rounded-xl shadow-xl p-6 md:p-10">
