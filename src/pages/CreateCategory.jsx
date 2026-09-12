@@ -29,6 +29,7 @@ export default function CreateCategory() {
           reset({
             categoryName: category.categoryName,
             categoryDescription: category.categoryDescription,
+            imageUrl: category.imageUrl,
           });
         })
         .catch((err) => setServerError(err.message))
@@ -44,6 +45,7 @@ export default function CreateCategory() {
     const payload = {
       categoryName: data.categoryName,
       categoryDescription: data.categoryDescription,
+      imageUrl: data.imageUrl,
     };
     try {
       if (isUpdateMode) {
@@ -86,6 +88,14 @@ export default function CreateCategory() {
           error={errors.categoryDescription?.message}
           registration={register("categoryDescription", { required: "Description is required" })}
         />
+
+        <FormField
+  label="Image URL"
+  id="imageUrl"
+  placeholder="https://images.unsplash.com/..."
+  error={errors.imageUrl?.message}
+  registration={register("imageUrl")}
+/>
 
         <button
           type="submit"

@@ -6,7 +6,7 @@ import { fetchProductOptionsByProduct } from "../api/productOptions";
 import { fetchSellingMeasurementsByOption } from "../api/sellingMeasurements";
 import { measurementUnitLabels } from "../components/measurementUnitLabels";
 import { useCart } from "../context/useCart";
-import { getCategoryBackground } from "../utils/categoryBackgrounds";
+import authBackground from "../assets/images/authpage_Image.jpg";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -73,7 +73,7 @@ export default function ProductDetails() {
   if (error) return <Container className="py-20 text-center text-red-500">{error}</Container>;
   if (!product) return null;
 
-  const backgroundImage = getCategoryBackground(product.productCategoryName);
+  const backgroundImage = product.productCategoryImageUrl || authBackground;
 
   return (
     <div
